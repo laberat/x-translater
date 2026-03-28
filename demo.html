@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>X.com 中文翻译插件演示</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f7f9fa;
+    }
+    
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      color: #1da1f2;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .demo-section {
+      margin-bottom: 32px;
+    }
+    
+    .demo-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #0f1419;
+    }
+    
+    .tweet {
+      border: 1px solid #e1e8ed;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background-color: white;
+    }
+    
+    .tweet-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #1da1f2;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .user-info {
+      flex: 1;
+    }
+    
+    .username {
+      font-weight: 600;
+      color: #0f1419;
+    }
+    
+    .handle {
+      color: #536471;
+      font-size: 14px;
+    }
+    
+    .tweet-text {
+      font-size: 15px;
+      line-height: 1.4;
+      color: #0f1419;
+      margin-bottom: 12px;
+    }
+    
+    .translation {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background-color: rgba(0, 0, 0, 0.03);
+      border-left: 3px solid #1da1f2;
+      border-radius: 4px;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #536471;
+    }
+    
+    .translation.translated {
+      color: #0f1419;
+    }
+    
+    .status {
+      text-align: center;
+      padding: 16px;
+      background-color: #e8f5fd;
+      border-radius: 8px;
+      margin-top: 24px;
+    }
+    
+    .status-title {
+      font-weight: 600;
+      color: #1da1f2;
+      margin-bottom: 8px;
+    }
+    
+    .status-text {
+      color: #536471;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>X.com 中文翻译插件演示</h1>
+    
+    <div class="demo-section">
+      <div class="demo-title">插件功能演示</div>
+      
+      <div class="tweet">
+        <div class="tweet-header">
+          <div class="avatar">U1</div>
+          <div class="user-info">
+            <div class="username">User One</div>
+            <div class="handle">@user1</div>
+          </div>
+        </div>
+        <div class="tweet-text">
+          This is a sample tweet in English. The quick brown fox jumps over the lazy dog. This tweet will be automatically translated to Chinese.
+        </div>
+        <div class="translation translated">
+          这是一条英文示例推文。快速的棕色狐狸跳过了懒狗。这条推文将被自动翻译成中文。
+        </div>
+      </div>
+      
+      <div class="tweet">
+        <div class="tweet-header">
+          <div class="avatar">U2</div>
+          <div class="user-info">
+            <div class="username">User Two</div>
+            <div class="handle">@user2</div>
+          </div>
+        </div>
+        <div class="tweet-text">
+          你好，这是一条中文推文。插件会检测到这是中文，因此不会进行翻译。
+        </div>
+        <!-- 中文推文不显示翻译 -->
+      </div>
+      
+      <div class="tweet">
+        <div class="tweet-header">
+          <div class="avatar">U3</div>
+          <div class="user-info">
+            <div class="username">User Three</div>
+            <div class="handle">@user3</div>
+          </div>
+        </div>
+        <div class="tweet-text">
+          Bonjour, comment allez-vous aujourd'hui? Ceci est un exemple de tweet en français.
+        </div>
+        <div class="translation translated">
+          你好，你今天好吗？这是一条法语推文的例子。
+        </div>
+      </div>
+    </div>
+    
+    <div class="status">
+      <div class="status-title">插件状态</div>
+      <div class="status-text">
+        插件已成功加载并工作正常。<br>
+        当您访问X.com时，插件会自动翻译非中文推文。
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    console.log('X.com 中文翻译插件演示页面加载完成');
+  </script>
+</body>
+</html>

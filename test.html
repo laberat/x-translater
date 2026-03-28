@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>X.com 中文翻译测试</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .tweet {
+      border: 1px solid #e1e8ed;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .tweet-text {
+      font-size: 15px;
+      line-height: 1.4;
+      color: #0f1419;
+    }
+    
+    .translation {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background-color: rgba(0, 0, 0, 0.03);
+      border-left: 3px solid #1da1f2;
+      border-radius: 4px;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #536471;
+    }
+    
+    .translation.translated {
+      color: #0f1419;
+    }
+    
+    .translation.translating {
+      color: #536471;
+      font-style: italic;
+    }
+    
+    .translation.error {
+      color: #e0245e;
+      font-size: 12px;
+    }
+    
+    h1 {
+      color: #1da1f2;
+      border-bottom: 2px solid #1da1f2;
+      padding-bottom: 8px;
+    }
+    
+    .note {
+      background-color: #f7f9fa;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>X.com 中文翻译插件测试</h1>
+  
+  <div class="note">
+    <p>这是一个测试页面，用于模拟X.com上的推文。插件会自动检测并翻译非中文推文。</p>
+    <p>如果看到"翻译中..."或翻译结果，说明插件工作正常。</p>
+  </div>
+  
+  <div class="tweet" data-testid="tweet">
+    <div class="tweet-text" data-testid="tweetText">This is a test tweet in English. The quick brown fox jumps over the lazy dog.</div>
+  </div>
+  
+  <div class="tweet" data-testid="tweet">
+    <div class="tweet-text" data-testid="tweetText">这是一个中文推文，不需要翻译。</div>
+  </div>
+  
+  <div class="tweet" data-testid="tweet">
+    <div class="tweet-text" data-testid="tweetText">Bonjour, comment allez-vous aujourd'hui?</div>
+  </div>
+  
+  <div class="tweet" data-testid="tweet">
+    <div class="tweet-text" data-testid="tweetText">こんにちは、今日はお元気ですか？</div>
+  </div>
+  
+  <div class="tweet" data-testid="tweet">
+    <div class="tweet-text" data-testid="tweetText">Hola, ¿cómo estás hoy?</div>
+  </div>
+  
+  <script>
+    // 模拟插件功能进行测试
+    console.log('测试页面加载完成');
+    
+    // 检测中文字符
+    function isChinese(text) {
+      const chineseRegex = /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/;
+      const chineseChars = text.match(chineseRegex);
+      if (!chineseChars) return false;
+      
+      const cleanedText = text.replace(/[\s\p{P}]/gu, '');
+      const chineseRatio = chineseChars.length / cleanedText.length;
+      return chineseRatio > 0.5;
+    }
+    
+    // 处理所有推文
+    function processTweets() {
+      const tweets = document.querySelectorAll('[data-testid="tweet"]');
+      tweets.forEach(tweet => {
+        const textElement = tweet.querySelector('[data-testid="tweetText"]');
+        if (!textElement) return;
+        
+        const text = textElement.textContent.trim();
+        if (!text) return;
+        
+        // 检查是否已经添加翻译
+        if (tweet.querySelector('.translation')) return;
+        
+        // 检查是否为中文
+        if (isChinese(text)) return;
+        
+        // 创建翻译元素
+        const translationDiv = document.createElement('div');
+        translationDiv.className = 'translation translating';
+        translationDiv.textContent = '翻译中...';
+        
+        // 插入到推文文本后面
+        textElement.parentNode.insertBefore(translationDiv, textElement.nextSibling);
+        
+        // 模拟翻译API调用
+        setTimeout(() => {
+          // 这里应该调用实际的翻译API
+          // 为了测试，我们显示一个模拟的翻译
+          const translations = {
+            "This is a test tweet in English. The quick brown fox jumps over the lazy dog.": 
+              "这是一条英文测试推文。快速的棕色狐狸跳过了懒狗。",
+            "Bonjour, comment allez-vous aujourd'hui?": 
+              "你好，你今天好吗？",
+            "こんにちは、今日はお元気ですか？": 
+              "你好，你今天好吗？",
+            "Hola, ¿cómo estás hoy?": 
+              "你好，你今天好吗？"
+          };
+          
+          if (translations[text]) {
+            translationDiv.className = 'translation translated';
+            translationDiv.textContent = translations[text];
+          } else {
+            translationDiv.className = 'translation error';
+            translationDiv.textContent = '翻译失败（测试模式）';
+          }
+        }, 1000);
+      });
+    }
+    
+    // 页面加载完成后处理
+    document.addEventListener('DOMContentLoaded', function() {
+      processTweets();
+    });
+    
+    // 如果页面已经加载完成
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      processTweets();
+    }
+  </script>
+</body>
+</html>

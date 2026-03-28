@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>X.com 中文翻译插件 - 测试页面</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f7f9fa;
+    }
+    
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      color: #1da1f2;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .info {
+      background-color: #e8f5fd;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      border-left: 4px solid #1da1f2;
+    }
+    
+    .info h2 {
+      margin-top: 0;
+      color: #1a73a7;
+    }
+    
+    .tweet {
+      border: 1px solid #e1e8ed;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background-color: white;
+    }
+    
+    .tweet-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #1da1f2;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .user-info {
+      flex: 1;
+    }
+    
+    .username {
+      font-weight: 600;
+      color: #0f1419;
+    }
+    
+    .handle {
+      color: #536471;
+      font-size: 14px;
+    }
+    
+    .tweet-text {
+      font-size: 15px;
+      line-height: 1.4;
+      color: #0f1419;
+      margin-bottom: 12px;
+    }
+    
+    .debug {
+      background-color: #fff3cd;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 24px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    
+    .debug h3 {
+      margin-top: 0;
+      color: #856404;
+    }
+    
+    .button {
+      background-color: #1da1f2;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .button:hover {
+      background-color: #1a91da;
+    }
+    
+    .button-secondary {
+      background-color: #fff;
+      color: #1da1f2;
+      border: 1px solid #1da1f2;
+    }
+    
+    .button-secondary:hover {
+      background-color: #e8f5fd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>X.com 中文翻译插件 - 测试页面</h1>
+    
+    <div class="info">
+      <h2>调试说明</h2>
+      <p>这个页面用于测试插件功能。请按以下步骤操作：</p>
+      <ol>
+        <li>打开浏览器开发者工具 (F12)</li>
+        <li>查看 Console 标签页的日志</li>
+        <li>点击下面的测试按钮</li>
+        <li>观察页面变化和控制台输出</li>
+      </ol>
+    </div>
+    
+    <div>
+      <button class="button" onclick="testTranslation()">测试翻译API</button>
+      <button class="button button-secondary" onclick="checkPlugin()">检查插件状态</button>
+      <button class="button button-secondary" onclick="findTweets()">查找推文元素</button>
+    </div>
+    
+    <div class="tweet" data-testid="tweet">
+      <div class="tweet-header">
+        <div class="avatar">T1</div>
+        <div class="user-info">
+          <div class="username">Test User 1</div>
+          <div class="handle">@testuser1</div>
+        </div>
+      </div>
+      <div class="tweet-text" data-testid="tweetText">
+        This is a test tweet in English. The quick brown fox jumps over the lazy dog. 
+        This tweet should be automatically translated to Chinese by the plugin.
+      </div>
+    </div>
+    
+    <div class="tweet" data-testid="tweet">
+      <div class="tweet-header">
+        <div class="avatar">T2</div>
+        <div class="user-info">
+          <div class="username">Test User 2</div>
+          <div class="handle">@testuser2</div>
+        </div>
+      </div>
+      <div class="tweet-text" data-testid="tweetText">
+        这是一条中文推文，插件应该检测到这是中文，因此不会进行翻译。
+      </div>
+    </div>
+    
+    <div class="tweet" data-testid="tweet">
+      <div class="tweet-header">
+        <div class="avatar">T3</div>
+        <div class="user-info">
+          <div class="username">Test User 3</div>
+          <div class="handle">@testuser3</div>
+        </div>
+      </div>
+      <div class="tweet-text" data-testid="tweetText">
+        Bonjour, comment allez-vous aujourd'hui? Ceci est un exemple de tweet en français 
+        qui devrait être traduit en chinois.
+      </div>
+    </div>
+    
+    <div class="debug">
+      <h3>调试输出</h3>
+      <div id="debug-output">等待测试...</div>
+    </div>
+  </div>
+  
+  <script>
+    function log(message) {
+      console.log('[Test Page]', message);
+      const output = document.getElementById('debug-output');
+      output.innerHTML += message + '<br>';
+    }
+    
+    function testTranslation() {
+      log('测试翻译API...');
+      
+      const text = 'Hello, how are you?';
+      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q=${encodeURIComponent(text)}`;
+      
+      log('请求URL: ' + url);
+      
+      fetch(url)
+        .then(response => {
+          log('响应状态: ' + response.status);
+          return response.json();
+        })
+        .then(data => {
+          log('API响应: ' + JSON.stringify(data).substring(0, 200) + '...');
+          if (data && data[0] && data[0][0]) {
+            log('翻译结果: ' + data[0][0][0]);
+            log('✅ 翻译API工作正常');
+          } else {
+            log('❌ 无法解析翻译结果');
+          }
+        })
+        .catch(error => {
+          log('❌ 请求失败: ' + error.message);
+        });
+    }
+    
+    function checkPlugin() {
+      log('检查插件状态...');
+      
+      if (typeof window.xTranslator !== 'undefined') {
+        log('✅ 插件已加载');
+        
+        const status = window.xTranslator.getStatus();
+        log('插件状态: ' + JSON.stringify(status));
+        
+        window.xTranslator.processTweets();
+        log('已触发推文处理');
+      } else {
+        log('❌ 插件未加载');
+        log('请确保：');
+        log('1. 插件已正确安装');
+        log('2. 页面已完全加载');
+        log('3. 查看控制台是否有错误');
+      }
+    }
+    
+    function findTweets() {
+      log('查找推文元素...');
+      
+      const selectors = [
+        '[data-testid="tweet"]',
+        'article[role="article"]',
+        '[role="article"]'
+      ];
+      
+      for (const selector of selectors) {
+        const elements = document.querySelectorAll(selector);
+        log(`选择器 "${selector}": 找到 ${elements.length} 个元素`);
+        
+        if (elements.length > 0) {
+          elements.forEach((el, i) => {
+            log(`  元素 ${i + 1}: ${el.textContent.substring(0, 50)}...`);
+          });
+        }
+      }
+    }
+    
+    // 页面加载完成后自动检查
+    window.addEventListener('load', function() {
+      log('页面加载完成');
+      setTimeout(checkPlugin, 1000);
+    });
+  </script>
+</body>
+</html>
